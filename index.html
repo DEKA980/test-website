@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Image Resizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black; /* Updated background color to black */
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in-out; /* Added fade-in animation to the entire page */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        header {
+            background-color: #35495e;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Added background animation */
+        body::before {
+            content: "";
+            background: url('background-animation.gif') repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: backgroundAnimation 20s linear infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                transform: translateY(-50%);
+            }
+            100% {
+                transform: translateY(0%);
+            }
+        }
+
+        #imageContainer {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: zoomIn 1s ease-in-out; /* Added zoom-in animation */
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #resizedImage {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: transform 0.5s ease-in-out; /* Added a transform transition for smoother resizing */
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label[for="imageInput"] {
+            display: block;
+            background-color: #35495e;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        label[for="imageInput"]:hover {
+            background-color: #293b4d;
+        }
+
+        button {
+            background-color: #35495e;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #293b4d;
+        }
+
+        label[for="widthInput"], label[for="heightInput"] {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cool Image Resizer</h1>
+    </header>
+
+    <div class="container">
+        <div id="imageContainer">
+            <img id="resizedImage" src="placeholder.jpg" alt="Image">
+        </div>
+
+        <label for="imageInput">Upload Image</label>
+        <input type="file" id="imageInput" accept="image/*">
+        
+        <label for="widthInput">Width (pixels):</label>
+        <input type="number" id="widthInput" value="300">
+        
+        <label for="heightInput">Height (pixels):</label>
+        <input type="number" id="heightInput" value="200">
+        
+        <button id="resizeButton">Resize</button>
+    </div>
+
+    <script>
+        const widthInput = document.getElementById("widthInput");
+        const heightInput = document.getElementById("heightInput");
+        const resizedImage = document.getElementById("resizedImage");
+        const resizeButton = document.getElementById("resizeButton");
+        const imageInput = document.getElementById("imageInput");
+
+        resizeButton.addEventListener("click", () => {
+            const newWidth = widthInput.value + "px";
+            const newHeight = heightInput.value + "px";
+
+            resizedImage.style.width = newWidth;
+            resizedImage.style.height = newHeight;
+        });
+
+        imageInput.addEventListener("change", () => {
+            const selectedImage = imageInput.files[0];
+            if (selectedImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    resizedImage.src = e.target.result;
+                };
+                reader.readAsDataURL(selectedImage);
+            }
+        });
+    </script>
+</body>
+</html>
